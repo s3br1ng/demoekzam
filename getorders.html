@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Все заявки</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+</head>
+<body>
+    <table>
+        <tr>
+            <th>Номер заявки</th>
+            <th>Дата создания заявки</th>
+            <th>Вид оргтехники</th>
+            <th>Модель</th>
+            <th>Описание проблемы</th>
+            <th>ФИО Клиента</th>
+            <th>Номер телефона клиента</th>
+            <th>Статус заявки</th>
+            <th>Мастер</th>
+            <th>Дата окончания работ</th>
+            <th>Комментарий мастера</th>
+        </tr>
+    </table>
+
+    <script>
+        let table = document.querySelector("table");
+
+        get_orders();
+
+        async function get_orders() {
+            let response = await fetch("http://127.0.0.1:8000/orders");
+            let orders = await response.json();
+         
+            orders.forEach(o => {
+                let tr = document.createElement("tr");
+
+                tr.innerHTML = `
+                <td>${o.num}</td>
+                <td>${o.add_date}</td>
+                <td>${o.tech_type}</td>
+                <td>${o.tech_model}</td>
+                <td>${o.problem_type}</td>
+                <td>${o.FIO}</td>
+                <td>${o.phone}</td>
+                <td>${o.status}</td>
+                <td>${o.master}</td>
+                <td>${o.end_date}</td>
+                <td>${o.master_comment}</td>`;
+                
+                table.appendChild(tr);    
+            });
+        }
+    </script>
+</body>
+</html>

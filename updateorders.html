@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Обновление заявки</title>
+</head>
+<body>
+    <form id="updateOrder">
+        <input required placeholder="Номер" type = "number" name = "num" />
+        <input required placeholder="Описание проблемы" type = "text" name = "problem_type" />
+        <select name="status">
+            <option value="">Выберите статус</option>
+            <option value="done">Выполнено</option>
+            <option value="in progress">В процесе</option>
+            <option value="not started">Не начато</option>
+            <input required placeholder="Мастер" type = "text" name = "master" />
+        </select>
+        <button type="button" onclick="submitUpdate()">Изменить заявку</button>
+    </form>
+    
+    <script>
+        async function submitUpdate() {
+            const formData = new FormData(document.getElementById('updateOrder'));
+            const data = Object.fromEntries([...formData.entries()].filter(([_, value]) => value.trim() !== ""));
+            
+            try {
+                const response = await fetch("http://127.0.0.1:8000/update", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+            } catch (err) {
+                alert(err.message);
+            }
+        }
+    </script>
+
+</body>
+</html>

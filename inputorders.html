@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавление заявки</title>
+</head>
+<body>
+    <form id="orderForm">
+        <input required placeholder="Номер" type = "number" name = "num" />
+        <input required placeholder="Дата добавления" type = "date" name = "add_date" />
+        <input required placeholder="Вид оргтехники" type = "text" name = "tech_type" />
+        <input required placeholder="Модель" type = "text" name = "tech_model" />
+        <input required placeholder="Описание проблемы" type = "text" name = "problem_type" />
+        <input required placeholder="ФИО клиента" type = "text" name = "FIO" />
+        <input required placeholder="Номер телефона" type = "number" name = "phone" />
+        <select name="status">
+            <option value="">Выберите статус</option>
+            <option value="in progress">В процесе</option>
+            <option value="not started">Не начато</option>
+        </select>
+        <button type="button" onclick="submitForm()">Создать</button>
+    </form>
+
+    <script>
+        async function submitForm() {
+            const form = document.getElementById('orderForm');
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            
+            try {
+                const response = await fetch("http://127.0.0.1:8000/orders", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                });
+
+            } catch (err) {
+                alert(err.message);
+            }
+        }
+    </script>
+</body>
+</html>
